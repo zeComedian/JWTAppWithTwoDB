@@ -1,6 +1,7 @@
 angular.module('JWTDemoApp')
 // Creating the Angular Controller
     .controller('LoginController', function ($http, $scope, $state, AuthService, $rootScope) {
+        console.log($scope);
         // method for login
         $scope.login = function () {
             // requesting the token by usename and passoword
@@ -15,6 +16,7 @@ angular.module('JWTDemoApp')
                 $scope.password = null;
                 // checking if the token is available in the response
                 if (res.token) {
+                    console.log(res.token);
                     $scope.message = '';
                     // setting the Authorization Bearer token with JWT token
                     $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;

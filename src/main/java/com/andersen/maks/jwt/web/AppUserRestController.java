@@ -1,7 +1,9 @@
 package com.andersen.maks.jwt.web;
 
+import com.andersen.maks.jwt.domain.AppFeedback;
 import com.andersen.maks.jwt.domain.AppUser;
 import com.andersen.maks.jwt.repository.AppUserRepository;
+import com.andersen.maks.jwt.repository.MongoDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +11,32 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 
 @RestController
 @RequestMapping(value = "/api")
 public class AppUserRestController {
+
+    //Save the uploaded file to this folder
+    private static String UPLOADED_FOLDER = "D://temp//";
+
+    @Autowired
+    private MongoDBRepository mrep;
+
+
     @Autowired
     private AppUserRepository appUserRepository;
+
+
+    private static String UPLOAD_DIR = System.getProperty("user.home") + "/test";
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -64,6 +83,37 @@ public class AppUserRestController {
         }
         return new ResponseEntity<AppUser>(appUserRepository.save(appUser), HttpStatus.CREATED);
     }
+
+
+//    @RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) // //new annotation since 4.3
+//    public void upload(@RequestBody AppFeedback appFeedback) {
+//        AppFeedback appFeedback1 = new AppFeedback();
+//        appFeedback1.setText(appFeedback.getText());
+//        appFeedback1.setFileDatas(appFeedback.getFile());
+//
+//        mrep.save(appFeedback1);
+//    }
+
+    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    public void handleFileUpload(@RequestParam(value="file") MultipartFile file){
+        if (file.isEmpty()) {
+            System.out.println("Empty file");
+        }
+        try {
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+            System.out.println("message" +
+                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/users", method = RequestMethod.PUT)

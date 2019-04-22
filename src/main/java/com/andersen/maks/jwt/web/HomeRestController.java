@@ -1,7 +1,9 @@
 package com.andersen.maks.jwt.web;
 
+import com.andersen.maks.jwt.domain.AppFeedback;
 import com.andersen.maks.jwt.domain.AppUser;
 import com.andersen.maks.jwt.repository.AppUserRepository;
+import com.andersen.maks.jwt.repository.MongoDBRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
@@ -20,8 +23,11 @@ import java.util.*;
 @RestController
 public class HomeRestController {
 
+
+
     @Autowired
     private AppUserRepository appUserRepository;
+
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) {
@@ -40,6 +46,7 @@ public class HomeRestController {
         String loggedUsername = auth.getName();
         return appUserRepository.findOneByUsername(loggedUsername);
     }
+
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,

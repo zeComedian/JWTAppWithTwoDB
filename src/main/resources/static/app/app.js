@@ -1,7 +1,6 @@
 // Creating angular JWTDemoApp with module name "JWTDemoApp"
 angular.module('JWTDemoApp', ['ui.router'])
 
-
 // the following method will run at the time of initializing the module. That
 // means it will run only one time.
     .run(function (AuthService, $rootScope, $state) {

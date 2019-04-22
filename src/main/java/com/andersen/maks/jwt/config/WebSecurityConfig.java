@@ -20,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/index.html",
 						"/app/**",
 						"/register",
+						"/upload",
 						"/authenticate",
 						"/favicon.ico");
 	}

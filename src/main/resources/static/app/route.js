@@ -60,9 +60,21 @@ angular.module('JWTDemoApp').config(function ($stateProvider, $urlRouterProvider
                 controller: 'AccessDeniedController'
             }
         }
+    }).state('upload', {
+        parent: 'nav',
+        url: '/upload',
+        views: {
+            'content@': {
+                templateUrl: 'app/views/upload.html',
+                controller: 'UploadController'
+            }
+        }
     }).state('register', {
         parent: 'nav',
         url: '/register',
+        data: {
+            role: 'ADMIN'
+        },
         views: {
             'content@': {
                 templateUrl: 'app/views/register.html',
