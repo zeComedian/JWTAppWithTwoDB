@@ -1,0 +1,30 @@
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Messages
+        </div>
+        <div class="panel-body">
+
+            <div class="alert alert-info margin-top-5" ng-show="deleteMessage">{{deleteMessage}}</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Description</th>
+                    <th>File</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat = "item in userMsg">
+                <tr>
+                    <td>{{index+1}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.text}}</td>
+                    <!--<td><a href="D:/temp/{{item.pathToFile}} ">Скачать</a></td>-->
+                    <td> <a href="file:///D:/temp/{{item.pathToFile}}">Link 1</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

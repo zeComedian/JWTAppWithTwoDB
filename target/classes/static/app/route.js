@@ -78,7 +78,7 @@ angular.module('JWTDemoApp').config(function ($stateProvider, $urlRouterProvider
         views: {
             'content@': {
                 templateUrl: 'app/views/messages.html',
-                controller: 'MessageController'
+                controller: 'MyOwnController'
             }
         }
     }).state('register', {

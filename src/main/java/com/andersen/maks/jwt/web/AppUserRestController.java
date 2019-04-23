@@ -6,6 +6,8 @@ import com.andersen.maks.jwt.domain.Consumer;
 import com.andersen.maks.jwt.domain.Producer;
 import com.andersen.maks.jwt.repository.AppUserRepository;
 import com.andersen.maks.jwt.repository.MongoDBRepository;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +48,7 @@ public class AppUserRestController {
 
 
     String message = "";
+
 
 
 
@@ -108,7 +111,7 @@ public class AppUserRestController {
             AppFeedback appFeedback = new AppFeedback();
             appFeedback.setText(text);
             appFeedback.setEmail(email);
-            appFeedback.setPathToFile(path.toString());
+            appFeedback.setPathToFile(file.getOriginalFilename());
             message = appFeedback.toString();
             producer.send(message);
             System.out.println("Your message <b>"+appFeedback+"</b> published successfully");
@@ -123,10 +126,12 @@ public class AppUserRestController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
-    public String usersMessages(){
+    public String usersMessages() throws JSONException {
         String result = consumer.receiveQueue(message);
         System.out.println("RESULT " + result);
-        return result;
+        JSONObject jsonObject1 = new JSONObject(result);
+        System.out.println("json: " + jsonObject1.toString());
+        return jsonObject1.toString();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

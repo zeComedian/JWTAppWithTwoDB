@@ -76,10 +76,10 @@ public class AppFeedback {
 
     @Override
     public String toString() {
-        return "AppFeedback{" +
-                "email='" + email + '\'' +
-                ", text='" + text + '\'' +
-                ", pathToFile='" + pathToFile + '\'' +
+        return "{" +
+                "email:'" + email + '\'' +
+                ", text:'" + text + '\'' +
+                ", pathToFile:'" + pathToFile + '\'' +
                 '}';
     }
 }
